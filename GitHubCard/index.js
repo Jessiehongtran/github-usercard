@@ -58,6 +58,50 @@ const followersArray = [];
 
 */
 
+function createGithubCard(imageUrl,name,usersName,usersLocation,githubLink,followerNumber,followingNumber,usersBio) {
+  //create the elements
+  const card = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfo = document.createElement('div')
+  const name = document.createElement('h3')
+  const userName = document.createElement('p')
+  const location = document.createElement('p')
+  const profile = document.createElement('p')
+  const link = document.createElement('a')
+  const follower = document.createElement('p')
+  const following = document.createElement('p')
+  const bio = document.createElement('p')
+
+  //set the style
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  userName.classList.add('username')
+
+
+  //set the content
+  image.src = imageUrl
+  name.textContent = name
+  userName.textContent = usersName
+  location.textContent = usersLocation
+  link.href = githubLink
+  follower.textContent = followerNumber
+  following.textContent = followingNumber
+  bio.textContent = usersBio
+
+  //put together
+  card.appendChild(image)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(userName)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  cardInfo.appendChild(follower)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(bio)
+  profile.appendChild(link)
+}
+
 /* List of LS Instructors Github username's: 
   tetondan
   dustinmyers

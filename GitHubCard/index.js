@@ -2,15 +2,25 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const cards = document.querySelector('.cards')
 
-axios.get(`https://api.github.com/users/hong`)
-.then( response => {
-  // deal with the response data in here
-  console.log('show', response)
+axios.get(`https://api.github.com/users/jessiehongtran`)
+.then(res => {
+  console.log('get data',res.data)
+  // const imageUrl = res.data
+  // console.log(imageUrl)
+  const userCard = createGithubCard(res.data)
+  cards.appendChild(userCard)
+  
+  // console.log(userCard)
+  // cards.appendChild(userCard)
+  // createGithubCard()
+  
 })
+
 .catch( err => {
   // deal with the error in here
-  console.log('The API is currently down', err)
+  console.log('show error', err)
 })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -26,6 +36,8 @@ axios.get(`https://api.github.com/users/hong`)
 
 
 
+
+
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -36,7 +48,23 @@ axios.get(`https://api.github.com/users/hong`)
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+followersArray.forEach(follower=>{
+axios.get(`https://api.github.com/users/${follower}`)
+.then(res=>{
+  const user = res.data
+  console.log(res.data)
+  const container = document.querySelector('.cards')
+  container.appendChild(createGithubCard(user))
+  
+
+})
+.catch(err => {
+  // deal with the error in here
+  console.log('The API is currently down', err)}
+  )
+
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -58,12 +86,12 @@ const followersArray = [];
 
 */
 
-function createGithubCard(imageUrl,name,usersName,usersLocation,githubLink,followerNumber,followingNumber,usersBio) {
+function createGithubCard(data) {
   //create the elements
   const card = document.createElement('div')
   const image = document.createElement('img')
   const cardInfo = document.createElement('div')
-  const name = document.createElement('h3')
+  const login = document.createElement('h3')
   const userName = document.createElement('p')
   const location = document.createElement('p')
   const profile = document.createElement('p')
@@ -75,24 +103,24 @@ function createGithubCard(imageUrl,name,usersName,usersLocation,githubLink,follo
   //set the style
   card.classList.add('card')
   cardInfo.classList.add('card-info')
-  name.classList.add('name')
+  login.classList.add('name')
   userName.classList.add('username')
 
 
   //set the content
-  image.src = imageUrl
-  name.textContent = name
-  userName.textContent = usersName
-  location.textContent = usersLocation
-  link.href = githubLink
-  follower.textContent = followerNumber
-  following.textContent = followingNumber
-  bio.textContent = usersBio
+  image.src = data.avatar_url
+  login.textContent = data.login
+  userName.textContent = data.name
+  location.textContent = data.location
+  link.href = data.html_url
+  follower.textContent = data.followers
+  following.textContent = data.following
+  bio.textContent = data.bio
 
   //put together
   card.appendChild(image)
   card.appendChild(cardInfo)
-  cardInfo.appendChild(name)
+  cardInfo.appendChild(login)
   cardInfo.appendChild(userName)
   cardInfo.appendChild(location)
   cardInfo.appendChild(profile)
@@ -100,6 +128,8 @@ function createGithubCard(imageUrl,name,usersName,usersLocation,githubLink,follo
   cardInfo.appendChild(following)
   cardInfo.appendChild(bio)
   profile.appendChild(link)
+
+return card
 }
 
 /* List of LS Instructors Github username's: 
